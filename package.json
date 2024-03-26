@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "node test.js",
-    "build": "your_build_command_here"
+    "build": "if [ \"$SKIP_BUILD\" != \"true\" ]; then your_build_command_here; fi"
   },
   "keywords": [],
   "author": "",
