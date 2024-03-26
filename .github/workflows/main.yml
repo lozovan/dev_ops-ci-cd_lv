@@ -2,6 +2,8 @@ name: GitHub Action NodeLV
 
 on:
   push:
+  pull_request:
+    types: [opened, synchronize]
   workflow_dispatch:
 
 jobs:
@@ -34,3 +36,13 @@ jobs:
 
     - name: Run build
       run: npm run build
+
+    - name: Create new branch and pull request
+      if: github.event_name == 'pull_request'
+      run: |
+        git checkout -b ${{ github.event.pull_request.head.ref }}
+        git push origin ${{ github.event.pull_request.head.ref }}
+        curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/pulls \
+          -d '{"title":"New Pull Request","body":"Created by GitHub Actions","head":"${{ github.repository }}:${{ github.event.pull_request.head.ref }}","base":"main"}'
