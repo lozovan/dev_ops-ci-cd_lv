@@ -31,4 +31,9 @@ jobs:
       with:
         name: build
         path: dist
+  
+    - name: Skip build step
+      run: echo "SKIP_BUILD=true" >> $GITHUB_ENV
 
+    - name: Run build
+      run: npm run build
