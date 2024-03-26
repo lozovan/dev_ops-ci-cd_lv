@@ -23,11 +23,6 @@ jobs:
     - name: Run tests
       run: npm test
 
-    - name: Configure deployment
-      run: |
-        echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-        npm config set registry=https://registry.npmjs.org/
-
     - name: Build project
       run: npm run build
 
@@ -37,7 +32,3 @@ jobs:
         name: build
         path: dist
 
-    - name: Deploy to server
-      run: |
-        echo "Deploying to the server using the following command: ${{ secrets.DEPLOY_COMMAND }}"
-        ${{ secrets.DEPLOY_COMMAND }}
